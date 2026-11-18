@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Abdulqader Alshawea Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Sora:wght@500;600;700&display=swap">
+<style>
+/* Layout: sticky bar, hero with live coast illustration, tabbed simulators, experience timeline, project cards, stack grid, contact.
+   Palette: deep sea ink, Red Sea teal, desert sand; status colors kept separate from the accents. */
+:root{
+  --bg:#0a1519; --surface:#0f1f25; --surface2:#142a31; --line:#254651;
+  --fg:#e8f1f0; --muted:#97adb3; --sea:#3fb6c9; --sand:#f0b955;
+  --ok:#4fd18b; --warn:#f0b955; --crit:#ff6b5e;
+  --land:#10262d; --water:#0c3140; --road:#2a4b56; --bld:#173740; --ink-on-accent:#06161b;
+  --font-display:'Sora','IBM Plex Sans Arabic',system-ui,sans-serif;
+  --font-body:'IBM Plex Sans','IBM Plex Sans Arabic',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#f3f6f5; --surface:#ffffff; --surface2:#e8f0f0; --line:#c6d6d8;
+    --fg:#0d2228; --muted:#4f666c; --sea:#0b7488; --sand:#a8680a;
+    --ok:#157a49; --warn:#a8680a; --crit:#c2362a;
+    --land:#e5ece6; --water:#cde5ea; --road:#b9ccce; --bld:#d6e2e0; --ink-on-accent:#ffffff;
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f3f6f5; --surface:#ffffff; --surface2:#e8f0f0; --line:#c6d6d8;
+  --fg:#0d2228; --muted:#4f666c; --sea:#0b7488; --sand:#a8680a;
+  --ok:#157a49; --warn:#a8680a; --crit:#c2362a;
+  --land:#e5ece6; --water:#cde5ea; --road:#b9ccce; --bld:#d6e2e0; --ink-on-accent:#ffffff;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#0a1519; --surface:#0f1f25; --surface2:#142a31; --line:#254651;
+  --fg:#e8f1f0; --muted:#97adb3; --sea:#3fb6c9; --sand:#f0b955;
+  --ok:#4fd18b; --warn:#f0b955; --crit:#ff6b5e;
+  --land:#10262d; --water:#0c3140; --road:#2a4b56; --bld:#173740; --ink-on-accent:#06161b;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.6;
+  padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+.wrap{max-width:1120px;margin-inline:auto}
+h1,h2,h3{font-family:var(--font-display);line-height:1.15;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.5rem,3.2vw,2.1rem);font-weight:600;letter-spacing:-.01em}
+h3{font-size:1.1rem;font-weight:600}
+p{margin:0}
+a{color:var(--sea)}
+:focus-visible{outline:2px solid var(--sand);outline-offset:2px;border-radius:4px}
+svg.i{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.2em}
+button{font:inherit;color:inherit;cursor:pointer}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:12px;padding-block:10px;flex-wrap:wrap}
+.brand{font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:10px;margin-inline-end:auto;text-decoration:none;color:var(--fg)}
+.mono-mark{width:32px;height:32px;border-radius:9px;background:var(--sea);color:var(--ink-on-accent);display:grid;place-items:center;font-size:.9rem;font-weight:700}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:.92rem}
+nav a:hover{color:var(--fg);background:var(--surface2)}
+.tools{display:flex;gap:6px}
+.tbtn{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:6px 11px;display:flex;align-items:center;gap:6px;font-size:.88rem;min-height:36px}
+.tbtn:hover{border-color:var(--sea)}
+.tbtn[aria-pressed="true"]{background:var(--sea);color:var(--ink-on-accent);border-color:var(--sea)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:center;padding-block:44px 28px}
+.kicker{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sand);display:flex;align-items:center;gap:8px}
+:lang(ar) .kicker{letter-spacing:0;text-transform:none;font-family:var(--font-body)}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.8rem);font-weight:700;letter-spacing:-.025em;margin-block:12px 14px}
+.hero h1 em{font-style:normal;color:var(--sea)}
+.lede{color:var(--muted);max-width:60ch;font-size:1.06rem}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none;font-weight:500;min-height:44px}
+.btn.primary{background:var(--sea);border-color:var(--sea);color:var(--ink-on-accent)}
+.btn:hover{border-color:var(--sea)}
+.hero-art{border:1px solid var(--line);border-radius:18px;background:var(--surface);overflow:hidden;aspect-ratio:5/4}
+.hero-art{position:relative;touch-action:pan-y;cursor:grab}.hero-art:active{cursor:grabbing}.hero-art svg{display:block;width:100%;height:100%}.hero-art canvas{position:absolute;inset:0;width:100%;height:100%;display:block}.hint3d{position:absolute;inset-block-end:10px;inset-inline-start:12px;font-size:.74rem;color:var(--muted);background:color-mix(in srgb,var(--bg) 78%,transparent);border:1px solid var(--line);border-radius:999px;padding:3px 10px;pointer-events:none}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-block:8px 0}
+.stat{background:var(--surface);padding:14px 16px}
+.stat b{display:block;font-family:var(--font-display);font-size:1.6rem;font-weight:700;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.84rem;line-height:1.35;display:block}
+
+section{padding-block:44px 8px;scroll-margin-top:70px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-width:70ch}
+.sec-head p{color:var(--muted)}
+
+/* simulator shell */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tab{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 13px;display:flex;align-items:center;gap:8px;font-weight:500;min-height:42px}
+.tab[aria-selected="true"]{background:var(--surface2);border-color:var(--sea);box-shadow:inset 0 -2px 0 var(--sea)}
+.sim{margin-bottom:28px;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:14px}
+.stage{border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden;position:relative;min-width:0}
+.stage svg.map{display:block;width:100%;height:auto}
+.ctl{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.ctl h3{display:flex;align-items:center;gap:8px;font-size:1rem}
+.note{color:var(--muted);font-size:.86rem}
+.row{display:flex;flex-direction:column;gap:6px}
+.row label,.lbl{font-size:.86rem;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.row label output{color:var(--fg);font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--sea);min-height:26px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface2);border-radius:999px;padding:5px 11px;font-size:.84rem;display:inline-flex;align-items:center;gap:6px;min-height:32px}
+.chip[aria-pressed="true"]{background:var(--sea);border-color:var(--sea);color:var(--ink-on-accent)}
+.chip.crit[aria-pressed="true"]{background:var(--crit);border-color:var(--crit);color:#fff}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpi{background:var(--surface2);border-radius:10px;padding:9px 11px}
+.kpi small{display:block;color:var(--muted);font-size:.76rem;line-height:1.3}
+.kpi b{font-family:var(--font-mono);font-size:1.12rem;font-weight:500;font-variant-numeric:tabular-nums}
+table.t{width:100%;border-collapse:collapse;font-size:.84rem}
+table.t th,table.t td{text-align:start;padding:5px 6px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+table.t th{color:var(--muted);font-weight:500}
+.log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;max-height:150px;overflow:auto;font-size:.84rem}
+.log li{display:flex;gap:8px;align-items:flex-start}
+.dot{width:8px;height:8px;border-radius:50%;margin-top:7px;flex:none;background:var(--muted)}
+.dot.ok{background:var(--ok)}.dot.warn{background:var(--warn)}.dot.crit{background:var(--crit)}
+.pill{font-size:.74rem;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.pill.ok{color:var(--ok);border-color:var(--ok)}.pill.warn{color:var(--warn);border-color:var(--warn)}.pill.crit{color:var(--crit);border-color:var(--crit)}
+.badge-demo{position:absolute;inset-block-start:10px;inset-inline-start:10px;font-size:.72rem;background:color-mix(in srgb,var(--bg) 80%,transparent);border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted);z-index:2}
+
+/* svg map vocabulary */
+.sea{fill:var(--water)}.land{fill:var(--land);stroke:var(--line);stroke-width:1}
+.road{stroke:var(--road);stroke-width:5;fill:none}.road.th{stroke-width:2}
+.bld{fill:var(--bld)}
+.tx{fill:var(--muted);font-family:var(--font-mono);font-size:11px}
+.txb{fill:var(--fg);font-family:var(--font-body);font-size:12px;font-weight:600}
+.route{fill:none;stroke:var(--sea);stroke-width:2;stroke-dasharray:5 6;opacity:.8}
+.route.on{stroke:var(--sand);stroke-width:2.6;opacity:1}
+.hub{fill:var(--surface2);stroke:var(--sea);stroke-width:2;cursor:pointer}
+.hub.on{fill:var(--sea)}
+.site{fill:var(--sand)}
+.drone{fill:var(--fg)}
+.flow{fill:none;stroke-linecap:round;stroke-dasharray:3 10;animation:flowdash 1.4s linear infinite}
+@keyframes flowdash{to{stroke-dashoffset:-26}}
+.pulse{animation:pulse 1.8s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.2);opacity:0}}
+.asset{cursor:pointer}
+.layer-off{display:none}
+.wave{fill:none;stroke:var(--sea);stroke-width:1.5;opacity:.5}
+
+/* sections below */
+.tl{display:flex;flex-direction:column;gap:0;border-inline-start:2px solid var(--line);margin-inline-start:8px}
+.tl-item{padding:0 0 22px 22px;position:relative}
+:lang(ar) .tl-item{padding:0 22px 22px 0}
+.tl-item::before{content:"";position:absolute;inset-inline-start:-8px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--sea)}
+.tl-item.now::before{background:var(--sea)}
+.tl-head{display:flex;gap:10px;flex-wrap:wrap;align-items:baseline;justify-content:space-between}
+.tl-head b{font-family:var(--font-display);font-weight:600}
+.tl-date{font-family:var(--font-mono);font-size:.82rem;color:var(--sand)}
+.tl-item p{color:var(--muted);max-width:76ch;margin-top:4px;font-size:.96rem}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{font-family:var(--font-mono);font-size:.74rem;border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:14px}
+.card{border:1px solid var(--line);background:var(--surface);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.card .art{aspect-ratio:16/7;background:var(--surface2);border-bottom:1px solid var(--line)}
+.card .art svg{display:block;width:100%;height:100%}
+.card .body{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card p{color:var(--muted);font-size:.93rem}
+.card .links{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap;padding-top:6px}
+.live{font-size:.72rem;color:var(--ok);border:1px solid var(--ok);border-radius:999px;padding:1px 8px;margin-inline-start:8px;font-family:var(--font-body);font-weight:500}
+.stack{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:12px}
+.sg{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:14px;min-width:0}
+.sg h3{display:flex;align-items:center;gap:8px;font-size:.98rem;margin-bottom:8px;color:var(--sea)}
+.sg p{color:var(--muted);font-size:.9rem}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}
+.cbox{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.cbox .v{font-family:var(--font-mono);font-size:.92rem;overflow-wrap:anywhere}
+.cbox .lbl{justify-content:flex-start;align-items:center;gap:8px}
+footer{padding-block:34px 28px;color:var(--muted);font-size:.86rem;border-top:1px solid var(--line);margin-top:44px}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .sim{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:last-child{grid-column:1/-1}
+}
+@media (max-width:560px){
+  nav{order:3;width:100%;overflow-x:auto;flex-wrap:nowrap}
+  nav a{white-space:nowrap}
+}
+@media (prefers-reduced-motion:reduce){
+  .flow,.pulse{animation:none}
+}
+</style>
+
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-drone" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.4"/><path d="M10 10 6.5 6.5M14 10l3.5-3.5M10 14l-3.5 3.5M14 14l3.5 3.5"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/></symbol>
+    <symbol id="i-city" viewBox="0 0 24 24"><path d="M3 21h18M5 21V10l5-3v14M10 21V4l5 3v14M15 21v-7h4v7M7.5 12h1M7.5 15h1M12.5 9h1M12.5 12h1M12.5 15h1"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 8c2.5-3 5-3 7.5 0s5 3 7.5 0 3-2 5-1M2 14c2.5-3 5-3 7.5 0s5 3 7.5 0 3-2 5-1M2 20c2.5-3 5-3 7.5 0s5 3 7.5 0 3-2 5-1"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 8-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/></symbol>
+    <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 9.5 4 4 0 0 1 17.5 18z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-hospital" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 8v6M9 11h6M10 21v-4h4v4"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19M6 15h4"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17v.5"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 4v16M16 4v16"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+    <symbol id="i-lang" viewBox="0 0 24 24"><path d="M4 5h8M8 3v2M5.5 5c.5 3 2.5 5.5 5 7M10.5 5c-.5 3-3 6-6.5 8M13 20l4-9 4 9M14.5 17h5"/></symbol>
+    <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 6 1V4a3 3 0 0 0-3 0zM15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-6 1"/></symbol>
+    <symbol id="i-test" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L5 19a1.5 1.5 0 0 0 1.4 2h11.2A1.5 1.5 0 0 0 19 19l-5-10V3"/><path d="M7.5 15h9"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></symbol>
+  </defs>
+</svg>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="mono-mark">AA</span><span>Abdulqader Alshawea</span></a>
+    <nav aria-label="Sections">
+      <a href="#about" data-i18n="nav_about"></a>
+      <a href="#work" data-i18n="nav_work"></a>
+      <a href="#projects" data-i18n="nav_proj"></a>
+      <a href="#stack" data-i18n="nav_stack"></a>
+      <a href="#edu" data-i18n="nav_edu"></a>
+      <a href="#contact" data-i18n="nav_contact"></a>
+    </nav>
+    <div class="tools">
+      <button class="tbtn" id="btn-lang" type="button" aria-label="Language"><svg class="i"><use href="#i-lang"/></svg><span id="lang-label">العربية</span></button>
+      <button class="tbtn" id="btn-theme" type="button" aria-label="Theme"><svg class="i"><use href="#i-moon"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <div class="hero">
+    <div>
+      <div class="kicker"><svg class="i"><use href="#i-hospital"/></svg><span data-i18n="kicker"></span></div>
+      <h1><span data-i18n="h1a"></span> <em data-i18n="h1b"></em></h1>
+      <p class="lede" data-i18n="lede"></p>
+      <div class="cta">
+        <a class="btn" href="#projects"><svg class="i"><use href="#i-box"/></svg><span data-i18n="cta2"></span></a>
+        <a class="btn" href="#contact"><svg class="i"><use href="#i-mail"/></svg><span data-i18n="cta3"></span></a>
+      </div>
+    </div>
+    <div class="hero-art" id="hero3d" aria-label="Interactive 3D coastal city with drone routes. Drag to rotate.">
+      <svg viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice">
+        <rect width="500" height="400" class="sea"/>
+        <path class="land" d="M0 0H500V170C440 190 400 150 340 175C280 200 250 240 170 232C100 225 50 260 0 250Z"/>
+        <g class="bld">
+          <rect x="30" y="40" width="34" height="70"/><rect x="72" y="62" width="28" height="48"/><rect x="108" y="30" width="38" height="90"/>
+          <rect x="156" y="70" width="30" height="44"/><rect x="196" y="48" width="34" height="76"/><rect x="240" y="80" width="40" height="40"/>
+          <rect x="296" y="52" width="30" height="70"/><rect x="336" y="76" width="36" height="46"/><rect x="384" y="40" width="32" height="84"/><rect x="424" y="70" width="48" height="46"/>
+        </g>
+        <path class="road th" d="M0 138H500"/>
+        <path class="flow" style="stroke:var(--sand);stroke-width:3" d="M20 138H480"/>
+        <path d="M60 330C160 260 250 300 330 220S440 150 470 120" fill="none" stroke="var(--sea)" stroke-width="2" stroke-dasharray="4 7" opacity=".9"/>
+        <circle cx="60" cy="330" r="9" fill="var(--surface2)" stroke="var(--sea)" stroke-width="2"/>
+        <circle cx="470" cy="120" r="7" fill="var(--sand)"/>
+        <g fill="var(--fg)" transform="translate(262 262)"><circle r="5"/><path d="M-9-9 9 9M9-9-9 9" stroke="var(--fg)" stroke-width="1.5"/><circle cx="-9" cy="-9" r="3.5"/><circle cx="9" cy="-9" r="3.5"/><circle cx="-9" cy="9" r="3.5"/><circle cx="9" cy="9" r="3.5"/></g>
+        <path class="wave" d="M0 300q25-14 50 0t50 0 50 0 50 0 50 0 50 0 50 0 50 0 50 0 50 0"/>
+        <path class="wave" d="M0 340q25-14 50 0t50 0 50 0 50 0 50 0 50 0 50 0 50 0 50 0 50 0"/>
+        <path class="wave" d="M0 372q25-14 50 0t50 0 50 0 50 0 50 0 50 0 50 0 50 0 50 0 50 0"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b>7+</b><span data-i18n="st1"></span></div>
+    <div class="stat"><b>12</b><span data-i18n="st2"></span></div>
+    <div class="stat"><b>40%</b><span data-i18n="st3"></span></div>
+    <div class="stat"><b>150+</b><span data-i18n="st4"></span></div>
+    <div class="stat"><b>72</b><span data-i18n="st5"></span></div>
+  </div>
+
+  <section id="about">
+    <div class="sec-head"><h2 data-i18n="about_h"></h2><p data-i18n="about_p"></p></div>
+    <div class="stack" id="skillgrid"></div>
+  </section>
+
+  <!-- ================= EXPERIENCE ================= -->
+  <section id="work">
+    <div class="sec-head"><h2 data-i18n="work_h"></h2><p data-i18n="work_p"></p></div>
+    <div class="tl" id="timeline"></div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects">
+    <div class="sec-head"><h2 data-i18n="proj_h"></h2><p data-i18n="proj_p"></p></div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <!-- ================= STACK ================= -->
+  <section id="stack">
+    <div class="sec-head"><h2 data-i18n="stack_h"></h2></div>
+    <div class="stack" id="stackgrid"></div>
+  </section>
+
+  <section id="edu">
+    <div class="sec-head"><h2 data-i18n="edu_h"></h2></div>
+    <div class="stack" id="edugrid"></div>
+    <div class="sec-head" style="margin-top:28px"><h2 data-i18n="cert_h"></h2></div>
+    <div class="stack" id="certgrid"></div>
+    <div class="sec-head" style="margin-top:28px"><h2 data-i18n="lang_h"></h2><p data-i18n="lang_v"></p></div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact">
+    <div class="sec-head"><h2 data-i18n="con_h"></h2><p data-i18n="con_p"></p></div>
+    <div class="contact">
+      <div class="cbox"><span class="lbl"><svg class="i"><use href="#i-mail"/></svg><span data-i18n="con_mail"></span></span><span class="v" id="v-mail">abdulqadergobs@gmail.com</span><button class="chip" type="button" data-copy="v-mail"><svg class="i"><use href="#i-copy"/></svg><span data-i18n="copy"></span></button></div>
+      <div class="cbox"><span class="lbl"><svg class="i"><use href="#i-phone"/></svg><span data-i18n="con_phone"></span></span><span class="v" id="v-phone" dir="ltr">+966 50 227 6010</span><button class="chip" type="button" data-copy="v-phone"><svg class="i"><use href="#i-copy"/></svg><span data-i18n="copy"></span></button></div>
+      <div class="cbox"><span class="lbl"><svg class="i"><use href="#i-github"/></svg>GitHub</span><span class="v" dir="ltr">github.com/Nested101</span><a class="chip" href="https://github.com/Nested101" target="_blank" rel="noopener"><svg class="i"><use href="#i-ext"/></svg><span data-i18n="open"></span></a></div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span data-i18n="foot"></span></div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+'use strict';
+var host=document.getElementById('hero3d');
+if(!host||!window.THREE)return;
+var THREE=window.THREE,reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var renderer;
+try{renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});}catch(e){return}
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+var cv=renderer.domElement;host.appendChild(cv);
+var svg=host.querySelector('svg');if(svg)svg.style.visibility='hidden';
+var hint=document.createElement('div');hint.className='hint3d';host.appendChild(hint);
+function setHint(){hint.textContent=document.documentElement.lang==='ar'?'اسحب للتدوير':'Drag to rotate'}setHint();
+new MutationObserver(setHint).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+
+var scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(38,1,.1,100);
+camera.position.set(0,11.5,19.5);camera.lookAt(0,.2,0);
+scene.add(new THREE.AmbientLight(0xffffff,.62));
+var sun=new THREE.DirectionalLight(0xffffff,.6);sun.position.set(6,12,8);scene.add(sun);
+var world=new THREE.Group();scene.add(world);
+
+function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()||'#888'}
+var mats={};
+function mat(key,v,opts){var m=new THREE.MeshLambertMaterial(Object.assign({color:css(v)},opts||{}));mats[key]={m:m,v:v};return m}
+
+/* water with animated vertices */
+var wGeo=new THREE.PlaneGeometry(110,110,64,64);wGeo.rotateX(-Math.PI/2);
+var wMat=new THREE.MeshPhongMaterial({color:css('--water'),flatShading:true,shininess:60,transparent:true,opacity:.96});mats.water={m:wMat,v:'--water'};
+var water=new THREE.Mesh(wGeo,wMat);water.position.y=-.05;world.add(water);
+var wBase=wGeo.attributes.position.array.slice();
+
+/* land */
+var landM=mat('land','--land');
+var land=new THREE.Mesh(new THREE.BoxGeometry(15,.5,8),landM);land.position.set(0,.2,-3.3);world.add(land);
+var isle=new THREE.Mesh(new THREE.CylinderGeometry(1.8,2.2,.5,9),landM);isle.position.set(6,.15,3.6);world.add(isle);
+var isle2=new THREE.Mesh(new THREE.CylinderGeometry(1.2,1.5,.45,8),landM);isle2.position.set(-6.2,.12,3.2);world.add(isle2);
+
+/* city blocks */
+var seed=11;function rnd(){seed=(seed*9301+49297)%233280;return seed/233280}
+var bldM=mat('bld','--bld');
+var cityG=new THREE.Group();world.add(cityG);
+for(var i=0;i<13;i++)for(var j=0;j<5;j++){
+  if(rnd()<.18)continue;
+  var h=.35+Math.pow(rnd(),1.7)*2.6,w=.6+rnd()*.3,d=.6+rnd()*.3;
+  var b=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),bldM);
+  b.position.set(-6.2+i*1.03,.45+h/2,-6+j*1.18);cityG.add(b);
+}
+/* hospital */
+var hosp=new THREE.Mesh(new THREE.BoxGeometry(1.3,1.9,1.3),new THREE.MeshLambertMaterial({color:0xf1f5f5}));hosp.position.set(-1.8,.45+.95,-1.1);world.add(hosp);
+var crossM=mat('cross','--crit');
+var c1=new THREE.Mesh(new THREE.BoxGeometry(.7,.16,.05),crossM),c2=new THREE.Mesh(new THREE.BoxGeometry(.16,.7,.05),crossM);
+[c1,c2].forEach(function(c){c.position.set(-1.8,1.9,-.43);world.add(c)});
+/* roads */
+var roadM=mat('road','--road');
+var rd=new THREE.Mesh(new THREE.BoxGeometry(15,.02,.22),roadM);rd.position.set(0,.46,-.5);world.add(rd);
+
+/* hubs, sites */
+var seaM=mat('sea','--sea',{emissive:new THREE.Color(css('--sea')),emissiveIntensity:.35});
+var sandM=mat('sand','--sand',{emissive:new THREE.Color(css('--sand')),emissiveIntensity:.3});
+var hubs=[new THREE.Vector3(-5.6,.5,.6),new THREE.Vector3(6,.5,3.6),new THREE.Vector3(-6.2,.5,3.2)];
+hubs.forEach(function(p){var r=new THREE.Mesh(new THREE.TorusGeometry(.38,.07,10,28),seaM);r.rotation.x=Math.PI/2;r.position.copy(p);world.add(r)});
+var sites=[new THREE.Vector3(-1.8,2.5,-1.1),new THREE.Vector3(2.5,1.4,-2.8),new THREE.Vector3(5.2,.9,-4.6),new THREE.Vector3(.8,1.1,-5.2)];
+sites.forEach(function(p,i){if(i===0)return;var c=new THREE.Mesh(new THREE.CylinderGeometry(.14,.14,.9,12),sandM);c.position.set(p.x,.45+.45,p.z);world.add(c)});
+
+/* routes + drones */
+var routes=[],drones=[];
+function addRoute(a,b,lift,off){
+  var mid=a.clone().lerp(b,.5);mid.y=Math.max(a.y,b.y)+lift;mid.x+=off;
+  var curve=new THREE.QuadraticBezierCurve3(a.clone(),mid,b.clone());
+  var line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(48)),new THREE.LineBasicMaterial({color:css('--sea'),transparent:true,opacity:.7}));
+  mats['route'+routes.length]={m:line.material,v:'--sea',line:1};
+  world.add(line);routes.push(curve);
+}
+addRoute(hubs[0],sites[0],2.2,0);addRoute(hubs[0],sites[1],2.4,.4);addRoute(hubs[1],sites[2],1.8,-.3);addRoute(hubs[2],sites[3],2.3,.3);addRoute(hubs[1],sites[1],2.2,0);
+function makeDrone(){
+  var g=new THREE.Group(),bm=new THREE.MeshLambertMaterial({color:css('--fg')});mats['dr'+drones.length]={m:bm,v:'--fg'};
+  g.add(new THREE.Mesh(new THREE.BoxGeometry(.3,.1,.3),bm));
+  var rotors=[];
+  [[.22,.22],[-.22,.22],[.22,-.22],[-.22,-.22]].forEach(function(q){
+    var arm=new THREE.Mesh(new THREE.BoxGeometry(.3,.025,.025),bm);arm.position.set(q[0]/2,0,q[1]/2);arm.rotation.y=Math.atan2(-q[1],q[0]);g.add(arm);
+    var r=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.012,14),sandM);r.position.set(q[0],.06,q[1]);g.add(r);rotors.push(r)});
+  g.userData.rotors=rotors;world.add(g);return g;
+}
+routes.forEach(function(c,i){drones.push({g:makeDrone(),c:c,t:(i*.21)%1,dir:1,sp:.07+i*.012})});
+
+/* drag to rotate */
+var rotY=-.35,rotX=0,vel=0,drag=false,lx=0,ly=0,idle=0;
+host.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;ly=e.clientY;try{host.setPointerCapture(e.pointerId)}catch(_){}});
+host.addEventListener('pointermove',function(e){if(!drag)return;var dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;rotY+=dx*.008;rotX=Math.max(-.25,Math.min(.35,rotX+dy*.004));idle=0});
+function up(){drag=false}
+host.addEventListener('pointerup',up);host.addEventListener('pointercancel',up);
+
+function resize(){var w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
+resize();if(window.ResizeObserver)new ResizeObserver(resize).observe(host);else window.addEventListener('resize',resize);
+
+function recolor(){
+  Object.keys(mats).forEach(function(k){var o=mats[k];o.m.color.set(css(o.v));if(k==='water')o.m.color.lerp(new THREE.Color(css('--sea')),.45);if(o.m.emissive&&!o.line&&(o.v==='--sea'||o.v==='--sand'))o.m.emissive.set(css(o.v))});
+}
+document.getElementById('btn-theme').addEventListener('click',function(){setTimeout(recolor,30)});
+if(window.matchMedia)window.matchMedia('(prefers-color-scheme: dark)').addEventListener&&window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){setTimeout(recolor,30)});
+recolor();
+
+var clock=new THREE.Clock(),visible=true;
+if(window.IntersectionObserver)new IntersectionObserver(function(en){visible=en[0].isIntersecting}).observe(host);
+function frame(){
+  requestAnimationFrame(frame);
+  if(!visible||document.hidden)return;
+  var dt=Math.min(.05,clock.getDelta()),t=clock.elapsedTime;
+  if(!reduced){
+    if(!drag){idle+=dt;rotY+=dt*.07}
+    var p=wGeo.attributes.position.array;
+    for(var i=0;i<p.length;i+=3){p[i+1]=Math.sin(wBase[i]*.9+t*1.1)*.07+Math.cos(wBase[i+2]*1.0+t*.9)*.06}
+    wGeo.attributes.position.needsUpdate=true;wGeo.computeVertexNormals();
+    drones.forEach(function(d){
+      d.t+=d.dir*d.sp*dt;if(d.t>=1){d.t=1;d.dir=-1}else if(d.t<=0){d.t=0;d.dir=1}
+      var e=d.t*d.t*(3-2*d.t),pos=d.c.getPoint(e);d.g.position.copy(pos);
+      var tg=d.c.getTangent(e).multiplyScalar(d.dir);d.g.rotation.y=Math.atan2(-tg.z,tg.x);
+      d.g.userData.rotors.forEach(function(r){r.rotation.y+=dt*40});
+    });
+  }
+  world.rotation.y=rotY;world.rotation.x=rotX;
+  renderer.render(scene,camera);
+}
+frame();
+})();
+</script>
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var NS='http://www.w3.org/2000/svg';
+var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- i18n ---------- */
+var T={
+en:{
+nav_sim:'Simulations',nav_work:'Experience',nav_proj:'Projects',nav_stack:'Stack',nav_contact:'Contact',nav_about:'About',nav_edu:'Education',about_h:'About me',about_p:'Full stack developer with 7+ years building web, desktop, mobile and microservice systems end to end, from database design and query optimization, through secure .NET APIs, to React, Vue and Angular frontends. Recent work includes healthcare information systems (HIS, EMR, IAM) for Almana Hospitals Group, Saudi integrations (ZATCA e-invoicing, Elm Yakeen, Infobip SMS, Geidea and NamiPay mada/Visa payment terminals), and a full PMO portfolio and financial-control portal with server-side RBAC, SQL-computed KPIs, Power BI reporting, background automation, multi-provider AI and a bilingual Arabic/English RTL interface. Background in interior design brings a strong eye for UX.',skills_h:'Professional and soft skills',edu_h:'Education',cert_h:'Certifications',lang_h:'Languages',lang_v:'Arabic (native) · English (fluent)',
+kicker:'Full Stack Developer · Saudi Arabia',
+h1a:'Systems for healthcare,',h1b:'payments and operations.',
+lede:'7+ years building web, desktop, mobile and microservice systems end to end: database design and query optimization, secure .NET APIs, and React, Vue and Angular frontends. Recent work covers hospital information systems, Saudi integrations, card payment terminals and a live project-portfolio platform.',
+cta1:'Try the simulations',cta2:'See projects',cta3:'Get in touch',
+st1:'years building software',st2:'AI providers with automatic failover',st3:'faster after query optimization',st4:'automated tests on the payment service',st5:'DAX measures in the PMO report',
+sim_h:'Four operations simulators',sim_p:'Interactive models with example data. They show how I think about routes, networks, energy and sensors, and every control changes the result live.',
+tab1:'Fleet and routes',tab2:'City network',tab3:'Power and savings',tab4:'Coast and sensors',demo:'Example data',
+f_h:'Hub and fleet planner',f_hub:'Launch hub',f_n:'Drones in service',f_v:'Cruise speed (km/h)',f_p:'Payload per trip (kg)',f_site:'Clinic',f_km:'km',f_eta:'ETA',
+f_k1:'Average trip',f_k2:'Round trip + loading',f_k3:'Deliveries per hour',f_k4:'Capacity (kg/h)',f_hubname:'Hub',f_clinic:'Clinic',min:'min',
+c_h:'City layers and response',c_layers:'Layers',c_scn:'Scenario',c_go:'Trigger incident at selected asset',
+L_roads:'Roads',L_transit:'Transit',L_power:'Power',L_water:'Water',L_bld:'Buildings',
+S_fire:'Fire',S_med:'Medical',S_pow:'Power outage',
+c_sel:'Selected asset',c_load:'Load',c_stat:'Status',c_none:'Click an asset on the map.',
+c_k1:'Response time',c_k2:'Route length',c_k3:'Units dispatched',c_k4:'Incidents handled',
+A_hosp:'General hospital',A_sub:'Substation',A_metro:'Metro hub',A_water:'Water plant',A_dc:'Data centre',A_port:'Port gate',A_stad:'Stadium',
+st_ok:'Normal',st_warn:'Watch',st_crit:'Critical',
+lg_ready:'Network ready. Pick an asset and trigger an incident.',lg_inc:'Incident at',lg_disp:'dispatched from',lg_eta:'ETA',lg_done:'Resolved. Response time',
+U_fire:'Fire engine',U_med:'Ambulance',U_pow:'Repair crew',
+e_h:'Solar, battery and grid',e_hour:'Hour of day',e_play:'Play day',e_pause:'Pause',e_d:'Demand (% of baseline)',e_s:'Solar array (kWp)',e_b:'Battery (kWh)',e_t:'Tariff (SAR/kWh)',
+e_k1:'Savings per day',e_k2:'Savings per year',e_k3:'Solar share of demand',e_k4:'Peak grid draw',e_note:'Assumptions: a 24-hour dispatch model with a 250 kW peak baseline, solar first, battery second, grid last. Tariff is editable; results are estimates, not a quote.',
+e_solar:'Solar',e_grid:'Grid',e_batt:'Battery',e_site:'Facility',e_load:'Load',kw:'kW',e_soc:'Charge',
+w_h:'Coastal watch',w_s:'Storm intensity',w_go:'Send response unit',w_sen:'Sensor',w_lvl:'Level',w_st:'State',
+W_weather:'Weather',W_water:'Water level',W_sensors:'Sensors',
+w_k1:'Highest level',w_k2:'Alerts',w_k3:'Response ETA',w_k4:'Wave height',
+lg_wready:'Sensors online. Raise the storm intensity.',lg_walert:'Alert',lg_wsend:'Unit sent to',lg_warr:'Unit arrived at',
+work_h:'Experience',work_p:'Newest first. Each role lists the stack I used.',
+proj_h:'Selected projects',proj_p:'Production hospital systems, integrations and the products I built on my own.',
+open:'Open',stack_h:'Core stack',
+con_h:'Contact',con_p:'Open to full stack and healthcare IT roles in Saudi Arabia and the Gulf.',con_mail:'Email',con_phone:'Phone',copy:'Copy',copied:'Copied',
+foot:'Built from my CV.'
+},
+ar:{
+nav_sim:'المحاكاة',nav_work:'الخبرة',nav_proj:'المشاريع',nav_stack:'التقنيات',nav_contact:'تواصل',nav_about:'نبذة',nav_edu:'التعليم',about_h:'نبذة عني',about_p:'مطوّر Full Stack بخبرة تتجاوز 7 سنوات في بناء أنظمة الويب وسطح المكتب والجوال والخدمات المصغّرة من البداية إلى النهاية، من تصميم قواعد البيانات وتحسين الاستعلامات، مروراً بواجهات .NET آمنة، إلى واجهات React وVue وAngular. شمل عملي مؤخراً أنظمة معلومات صحية (HIS وEMR وIAM) لمجموعة مستشفيات المانع، وتكاملات سعودية (الفوترة الإلكترونية ZATCA وElm Yakeen وInfobip SMS وأجهزة دفع Geidea وNamiPay لمدى وفيزا)، وبوابة PMO كاملة للمحفظة والرقابة المالية بصلاحيات RBAC من الخادم ومؤشرات تُحسب في SQL وتقارير Power BI وأتمتة في الخلفية وذكاء اصطناعي متعدد المزوّدين وواجهة عربية/إنجليزية RTL. خلفيتي في التصميم الداخلي تمنحني حسّاً قوياً بتجربة المستخدم.',skills_h:'المهارات المهنية والشخصية',edu_h:'التعليم',cert_h:'الشهادات',lang_h:'اللغات',lang_v:'العربية (لغة أم) · الإنجليزية (بطلاقة)',
+kicker:'مطوّر Full Stack · المملكة العربية السعودية',
+h1a:'أنظمة للرعاية الصحية',h1b:'والمدفوعات والعمليات.',
+lede:'أكثر من 7 سنوات في بناء أنظمة الويب وسطح المكتب والجوال والخدمات المصغّرة من البداية إلى النهاية: تصميم قواعد البيانات وتحسين الاستعلامات، وواجهات .NET آمنة، وواجهات React وVue وAngular. شمل عملي مؤخراً أنظمة معلومات المستشفيات، والتكاملات السعودية، وأجهزة الدفع بالبطاقات، ومنصة حيّة لإدارة محفظة المشاريع.',
+cta1:'جرّب المحاكاة',cta2:'شاهد المشاريع',cta3:'تواصل معي',
+st1:'سنوات في بناء البرمجيات',st2:'مزوّد ذكاء اصطناعي مع تحويل تلقائي',st3:'تسريع بعد تحسين الاستعلامات',st4:'اختبار آلي لخدمة الدفع',st5:'مقياس DAX في تقرير PMO',
+sim_h:'أربع محاكيات للعمليات',sim_p:'نماذج تفاعلية ببيانات توضيحية. تعرض طريقة تفكيري في المسارات والشبكات والطاقة والحسّاسات، وكل عنصر تحكم يغيّر النتيجة مباشرة.',
+tab1:'الأسطول والمسارات',tab2:'شبكة المدينة',tab3:'الطاقة والتوفير',tab4:'الساحل والحسّاسات',demo:'بيانات توضيحية',
+f_h:'مخطّط المحطات والأسطول',f_hub:'محطة الإقلاع',f_n:'عدد الطائرات العاملة',f_v:'سرعة الرحلة (كم/س)',f_p:'الحمولة لكل رحلة (كجم)',f_site:'العيادة',f_km:'كم',f_eta:'الوصول',
+f_k1:'متوسط الرحلة',f_k2:'ذهاب وإياب مع التحميل',f_k3:'التسليمات في الساعة',f_k4:'السعة (كجم/س)',f_hubname:'المحطة',f_clinic:'عيادة',min:'دقيقة',
+c_h:'طبقات المدينة والاستجابة',c_layers:'الطبقات',c_scn:'السيناريو',c_go:'تفعيل حادث عند الأصل المحدد',
+L_roads:'الطرق',L_transit:'النقل العام',L_power:'الكهرباء',L_water:'المياه',L_bld:'المباني',
+S_fire:'حريق',S_med:'إسعاف',S_pow:'انقطاع كهرباء',
+c_sel:'الأصل المحدد',c_load:'الحمل',c_stat:'الحالة',c_none:'اضغط على أحد الأصول في الخريطة.',
+c_k1:'زمن الاستجابة',c_k2:'طول المسار',c_k3:'الوحدات المرسلة',c_k4:'الحوادث المعالجة',
+A_hosp:'المستشفى العام',A_sub:'محطة تحويل',A_metro:'محطة المترو',A_water:'محطة المياه',A_dc:'مركز البيانات',A_port:'بوابة الميناء',A_stad:'الملعب',
+st_ok:'طبيعي',st_warn:'مراقبة',st_crit:'حرج',
+lg_ready:'الشبكة جاهزة. اختر أصلاً وفعّل حادثاً.',lg_inc:'حادث عند',lg_disp:'أُرسلت من',lg_eta:'الوصول المتوقع',lg_done:'تمت المعالجة. زمن الاستجابة',
+U_fire:'سيارة إطفاء',U_med:'سيارة إسعاف',U_pow:'فريق إصلاح',
+e_h:'الشمس والبطارية والشبكة',e_hour:'ساعة اليوم',e_play:'تشغيل اليوم',e_pause:'إيقاف',e_d:'الطلب (٪ من الأساس)',e_s:'الألواح الشمسية (كيلوواط ذروة)',e_b:'البطارية (كيلوواط ساعة)',e_t:'التعرفة (ريال/ك.و.س)',
+e_k1:'التوفير اليومي',e_k2:'التوفير السنوي',e_k3:'حصة الشمس من الطلب',e_k4:'أعلى سحب من الشبكة',e_note:'الافتراضات: نموذج توزيع على 24 ساعة بحمل أساسي ذروته 250 كيلوواط، الشمس أولاً ثم البطارية ثم الشبكة. التعرفة قابلة للتعديل، والنتائج تقديرية وليست عرض سعر.',
+e_solar:'الشمس',e_grid:'الشبكة',e_batt:'البطارية',e_site:'المنشأة',e_load:'الحمل',kw:'كيلوواط',e_soc:'الشحن',
+w_h:'مراقبة الساحل',w_s:'شدة العاصفة',w_go:'إرسال وحدة استجابة',w_sen:'الحسّاس',w_lvl:'المستوى',w_st:'الحالة',
+W_weather:'الطقس',W_water:'منسوب المياه',W_sensors:'الحسّاسات',
+w_k1:'أعلى منسوب',w_k2:'التنبيهات',w_k3:'وصول الاستجابة',w_k4:'ارتفاع الموج',
+lg_wready:'الحسّاسات متصلة. ارفع شدة العاصفة.',lg_walert:'تنبيه',lg_wsend:'أُرسلت وحدة إلى',lg_warr:'وصلت الوحدة إلى',
+work_h:'الخبرة',work_p:'الأحدث أولاً. تحت كل وظيفة التقنيات التي استخدمتها.',
+proj_h:'مشاريع مختارة',proj_p:'أنظمة مستشفيات قيد التشغيل، وتكاملات، ومنتجات بنيتها بنفسي.',
+open:'فتح',stack_h:'التقنيات الأساسية',
+con_h:'تواصل',con_p:'متاح لوظائف Full Stack وتقنية المعلومات الصحية في السعودية والخليج.',con_mail:'البريد',con_phone:'الجوال',copy:'نسخ',copied:'تم النسخ',
+foot:'مبني من سيرتي الذاتية.'
+}};
+var lang='en';
+try{var sv=localStorage.getItem('aa-lang'); if(sv==='ar'||sv==='en') lang=sv; else if((navigator.language||'').toLowerCase().indexOf('ar')===0) lang='ar';}catch(e){}
+function t(k){return (T[lang]&&T[lang][k]!==undefined)?T[lang][k]:(T.en[k]||k)}
+function nf(n,d){return Number(n).toLocaleString(lang==='ar'?'ar-SA':'en-US',{minimumFractionDigits:d||0,maximumFractionDigits:d||0})}
+function L(o){return o[lang]||o.en}
+
+/* ---------- content from the CV ---------- */
+var JOBS=[
+{d:'2025 – ',now:1,r:{en:'Full Stack Developer',ar:'مطوّر Full Stack'},c:'Almana Hospitals Group',loc:{en:'Saudi Arabia',ar:'السعودية'},
+ p:{en:'Built the Hospital Information System (HIS), Contract Management, Identity Access Management (IAM), Medical Electronic Records (EMR) and Sick Leave systems. Desktop work in .NET with advanced query optimization, profiling and issue tracing; web features migrated from desktop and Java Spring Boot apps. Cross-location T-SQL stored procedures (dynamic SQL over every hospital database) for patient search by ID, name, mobile and insurance. .NET integrations with ZATCA e-invoicing, Elm Yakeen and the Infobip SMS gateway, and Geidea and NamiPay payment terminals (mada and Visa). Key achievement: 40% better performance through query optimization.',ar:'بنيت نظام معلومات المستشفى (HIS) وإدارة العقود وإدارة الهوية والصلاحيات (IAM) والسجلات الطبية الإلكترونية (EMR) وأنظمة الإجازات المرضية. تطوير سطح المكتب بـ.NET مع تحسين متقدم للاستعلامات والتحليل وتتبع المشكلات، ونقل ميزات إلى الويب من تطبيقات سطح المكتب وJava Spring Boot. إجراءات T-SQL مخزّنة عبر المواقع (SQL ديناميكي على قواعد بيانات كل المستشفيات) للبحث عن المريض بالهوية والاسم والجوال والتأمين. تكاملات .NET مع ZATCA وElm Yakeen وبوابة Infobip للرسائل، وأجهزة الدفع Geidea وNamiPay (مدى وفيزا). الإنجاز: تحسين الأداء بنسبة 40٪ عبر تحسين الاستعلامات.'},
+ s:['C#','.NET','T-SQL','Java Spring Boot','SQL Server','Entity Framework Core','JWT','Query Optimization']},
+{d:'2025 – ',now:1,r:{en:'AI & Full Stack Developer (Freelance / Side Projects)',ar:'مطوّر ذكاء اصطناعي وFull Stack (مستقل / مشاريع جانبية)'},c:'',loc:{en:'Saudi Arabia',ar:'السعودية'},
+ p:{en:'Built and deployed the PMO Portal (live). Built VoiceOfJobs: an AI recruitment and marketplace platform with 50+ capabilities, 12 AI providers with automatic failover, job scraping (LinkedIn, Indeed, Bayt, Mourjan), Gmail OAuth2 campaigns and a bilingual interface with RBAC. Also SQL Deployment Manager, Invoice Builder (drag-and-drop, PDF export), CV Creator (ATS-optimized) and data tools.',ar:'بنيت ونشرت بوابة PMO (حيّة). وبنيت VoiceOfJobs: منصة توظيف وسوق بالذكاء الاصطناعي بأكثر من 50 قدرة و12 مزوّد ذكاء اصطناعي مع تحويل تلقائي، وجمع الوظائف (LinkedIn وIndeed وBayt وMourjan) وحملات Gmail OAuth2 وواجهة ثنائية اللغة مع صلاحيات RBAC. وأيضاً مدير نشر SQL ومنشئ الفواتير (سحب وإفلات وتصدير PDF) ومنشئ السير الذاتية (متوافق مع ATS) وأدوات بيانات.'},
+ s:['ASP.NET Core 8','React 19','Vite','TailwindCSS','SqlSugar','PostgreSQL','SQL Server','SQLite','Playwright']},
+{d:'2025',r:{en:'Full Stack Developer',ar:'مطوّر Full Stack'},c:'Maham AI',loc:{en:'Riyadh, Saudi Arabia',ar:'الرياض، السعودية'},
+ p:{en:'Built full stack features using .NET and Next.js with a PostgreSQL data layer.',ar:'بنيت ميزات Full Stack باستخدام .NET وNext.js مع طبقة بيانات PostgreSQL.'},
+ s:['.NET','Next.js','React','PostgreSQL']},
+{d:'2025',r:{en:'Full Stack Developer',ar:'مطوّر Full Stack'},c:'Maham',loc:{en:'Riyadh, Saudi Arabia',ar:'الرياض، السعودية'},
+ p:{en:'Built full stack modules with .NET, SqlSugar ORM and Vue.js, plus reporting features for business operations.',ar:'بنيت وحدات Full Stack بـ.NET وSqlSugar وVue.js مع ميزات تقارير للعمليات.'},
+ s:['.NET','SQL Server','SqlSugar','Vue.js','Reporting']},
+{d:'2025',r:{en:'Full Stack Developer',ar:'مطوّر Full Stack'},c:'Freelight',loc:{en:'Riyadh, Saudi Arabia',ar:'الرياض، السعودية'},
+ p:{en:'Built full stack modules with .NET, SqlSugar ORM and Vue.js, plus reporting features for business operations.',ar:'بنيت وحدات Full Stack بـ.NET وSqlSugar وVue.js مع ميزات تقارير للعمليات.'},
+ s:['.NET','SQL Server','SqlSugar','Vue.js','Reporting']},
+{d:'2024 – 2025',r:{en:'Full Stack Developer',ar:'مطوّر Full Stack'},c:'Shirkat Al-Inara Al-Hurra',loc:{en:'Riyadh, Saudi Arabia',ar:'الرياض، السعودية'},
+ p:{en:'Delivered full stack features across React and Vue.js frontends with a .NET API backend; designed and optimized SQL Server data layers.',ar:'قدّمت ميزات Full Stack عبر واجهات React وVue.js مع خلفية .NET API، وصمّمت وحسّنت طبقات بيانات SQL Server.'},
+ s:['React','Vue.js','.NET API','SQL Server']},
+{d:'2024 – 2025',r:{en:'Desktop Applications Developer (Freelance)',ar:'مطوّر تطبيقات سطح المكتب (مستقل)'},c:'',loc:{en:'',ar:''},
+ p:{en:'Developed a Water Application for a neighborhood, a University Application and a Stock/ERP system.',ar:'طوّرت تطبيق مياه لأحد الأحياء، وتطبيقاً جامعياً، ونظام مخزون/ERP.'},
+ s:['C#','.NET','SQL Server','Azure']},
+{d:'2022 – 2024',r:{en:'Microservices Developer',ar:'مطوّر خدمات مصغّرة'},c:'Datatrans Company',loc:{en:'',ar:''},
+ p:{en:'Developed C#/.NET microservices on ASP.NET Core with API Gateway, Docker, RabbitMQ, gRPC and Redis caching. Worked on CRM, Attendance, Compliance, Talent Acquisition, Loss Intelligence, Performance Management and Saned Services modules.',ar:'طوّرت خدمات مصغّرة بـC#/.NET على ASP.NET Core مع API Gateway وDocker وRabbitMQ وgRPC وتخزين Redis المؤقت. عملت على وحدات CRM والحضور والامتثال واستقطاب المواهب وذكاء الخسائر وإدارة الأداء وخدمات سند.'},
+ s:['ASP.NET Core','Microservices','Docker','gRPC','RabbitMQ','API Gateway','Redis','Entity Framework']},
+{d:'2022 – 2024',r:{en:'Outsourcing Developer',ar:'مطوّر تعهيد'},c:'Datatrans Company',loc:{en:'',ar:''},
+ p:{en:'Developed backend and web applications with C#, .NET and ASP.NET Core MVC; improved the Nawras, ANHAR and Saned Service systems.',ar:'طوّرت تطبيقات خلفية وويب بـC# و.NET وASP.NET Core MVC، وحسّنت أنظمة نورس وأنهار وخدمة سند.'},
+ s:['C#','.NET','ASP.NET Core MVC','jQuery','JavaScript','SQL Server']},
+{d:'2020 – 2022',r:{en:'Web Applications Developer',ar:'مطوّر تطبيقات ويب'},c:'',loc:{en:'',ar:''},
+ p:{en:'Developed an Angular Water System with a .NET API backend, an Invoice System with PDF reports, and E-commerce and Realtime applications.',ar:'طوّرت نظام مياه بـAngular مع خلفية .NET API، ونظام فواتير بتقارير PDF، وتطبيقات تجارة إلكترونية وتطبيقات لحظية.'},
+ s:['Angular','.NET API','SQL Server','PDF Reports']},
+{d:'2019 – 2020',r:{en:'Mobile Applications Developer',ar:'مطوّر تطبيقات جوال'},c:'',loc:{en:'',ar:''},
+ p:{en:'Developed a WhatsApp clone (Firebase), a Twitter clone (AppWrite) and a MAUI Water System with an API backend.',ar:'طوّرت نسخة شبيهة بواتساب (Firebase) ونسخة شبيهة بتويتر (AppWrite) ونظام مياه بـMAUI مع خلفية API.'},
+ s:['Flutter','Dart','Firebase','AppWrite','.NET MAUI','RDLC Reports']},
+{d:'2018 – 2019',r:{en:'Desktop Applications Developer',ar:'مطوّر تطبيقات سطح المكتب'},c:'',loc:{en:'',ar:''},
+ p:{en:'Developed Water, University and Stock systems with Crystal Reports and SQL Server.',ar:'طوّرت أنظمة المياه والجامعة والمخزون مع Crystal Reports وSQL Server.'},
+ s:['C#','.NET','Crystal Reports','SQL Server']}
+];
+var PROJ=[
+{art:'pmo',live:1,n:{en:'PMO Portal',ar:'بوابة PMO'},p:{en:'Project portfolio and financial control: projects, tasks, milestones, risks, change requests, budgets and forecasts. Server-enforced RBAC, finance engine computed in SQL, a change-request state machine, optimistic concurrency, a background automation worker, an AI assistant across 12 providers, Power BI embed (72 DAX measures), an ECharts dashboard, 30 xUnit tests, Docker and a bilingual English/Arabic RTL interface.',ar:'إدارة محفظة المشاريع والرقابة المالية: المشاريع والمهام والمعالم والمخاطر وطلبات التغيير والميزانيات والتوقعات. صلاحيات RBAC مفروضة من الخادم، ومحرك مالي يُحسب في SQL، ومسار حالات لطلبات التغيير، وتحكم تزامن تفاؤلي، وعامل أتمتة في الخلفية، ومساعد ذكاء اصطناعي عبر 12 مزوّداً، وتضمين Power BI (72 مقياس DAX)، ولوحة ECharts، و30 اختبار xUnit، وDocker، وواجهة عربية/إنجليزية RTL.'},
+ s:['ASP.NET Core 8','SqlSugar','PostgreSQL','React 18','TypeScript','SignalR','Power BI','xUnit','Docker'],l:[['pompro.netlify.app','https://pompro.netlify.app'],['API','https://applayied.onrender.com']]},
+{art:'pay',n:{en:'Payment Terminal Integration for HIS',ar:'ربط أجهزة الدفع بنظام HIS'},p:{en:'Geidea and NamiPay (SkyBand ECR) mada and Visa terminals through one reusable C# service over USB/COM and TCP/IP, with SQLite, SQL Server and JSON storage, offline fallback and automatic sync, card-data masking, no expiry storage, parameterized SQL, role-based access and 150+ xUnit tests. Builds for .NET 4.8 and 4.0.',ar:'ربط أجهزة Geidea وNamiPay (SkyBand ECR) لبطاقات مدى وفيزا عبر خدمة C# واحدة قابلة لإعادة الاستخدام (USB/COM وTCP/IP) مع تخزين SQLite وSQL Server وJSON، ووضع عدم الاتصال ومزامنة تلقائية، وإخفاء رقم البطاقة، وعدم تخزين تاريخ الانتهاء، واستعلامات مُعلّمة، وصلاحيات بالأدوار، وأكثر من 150 اختبار xUnit. إصدارات لـ.NET 4.8 و4.0.'},
+ s:['C#','.NET Framework 4.0–4.8','ADO.NET','SQLite','P/Invoke','Serial COM','xUnit']},
+{art:'his',n:{en:'Hospital Information System (HIS)',ar:'نظام معلومات المستشفى (HIS)'},p:{en:'Comprehensive HIS for patient data, appointments, medical records and hospital operations across desktop and web interfaces.',ar:'نظام HIS شامل لبيانات المرضى والمواعيد والسجلات الطبية وعمليات المستشفى عبر واجهات سطح المكتب والويب.'},
+ s:['.NET','C#','T-SQL','SQL Server','EF Core']},
+{art:'his',n:{en:'Medical Electronic Records (EMR)',ar:'السجلات الطبية الإلكترونية (EMR)'},p:{en:'EMR data model, clinical document management and performance-optimized reporting for large medical datasets.',ar:'نموذج بيانات EMR وإدارة المستندات السريرية وتقارير محسّنة الأداء لمجموعات بيانات طبية كبيرة.'},
+ s:['.NET','C#','SQL Server','EF Core']},
+{art:'integ',n:{en:'Identity Access Management (IAM)',ar:'إدارة الهوية والصلاحيات (IAM)'},p:{en:'RBAC, SSO integration, user management and audit logging across hospital systems.',ar:'صلاحيات RBAC وتكامل SSO وإدارة المستخدمين وتسجيل التدقيق عبر أنظمة المستشفى.'},
+ s:['.NET','C#','SQL Server','JWT','EF Core']},
+{art:'jobs',n:{en:'Contract Management System',ar:'نظام إدارة العقود'},p:{en:'Contract repository, workflow automation and reporting dashboard for Almana Hospitals Group.',ar:'مستودع عقود وأتمتة سير العمل ولوحة تقارير لمجموعة مستشفيات المانع.'},
+ s:['.NET','C#','SQL Server','EF Core']},
+{art:'integ',n:{en:'Saudi integrations: ZATCA, Elm Yakeen, Infobip SMS',ar:'التكاملات السعودية: ZATCA وElm Yakeen وInfobip'},p:{en:'ZATCA (Fatoora) e-invoicing for billing compliance, Elm Yakeen national ID / Iqama verification and Infobip SMS notifications, all in .NET.',ar:'الفوترة الإلكترونية ZATCA (فاتورة) للامتثال، والتحقق من الهوية الوطنية/الإقامة عبر Elm Yakeen، وإشعارات Infobip SMS، كلها بـ.NET.'},
+ s:['C#','SQL Server','ZATCA APIs','Elm Yakeen API','Infobip SMS API']},
+{art:'jobs',n:{en:'VoiceOfJobs',ar:'VoiceOfJobs'},p:{en:'AI-powered job and marketplace platform: automated scraping, AI cover letters, Gmail OAuth2 campaigns, CV parsing and 12 AI providers with automatic failover.',ar:'منصة وظائف وسوق بالذكاء الاصطناعي: جمع آلي للوظائف وخطابات تقديم بالذكاء الاصطناعي وحملات Gmail OAuth2 وتحليل السير الذاتية و12 مزوّد ذكاء اصطناعي مع تحويل تلقائي.'},
+ s:['ASP.NET Core 8','SqlSugar','JWT','Serilog','Playwright','MailKit','Gmail API','React 19']},
+{art:'integ',n:{en:'Enterprise Microservices Platform — CRM Suite',ar:'منصة الخدمات المصغّرة — حزمة CRM'},p:{en:'Multi-module platform: CRM, Attendance, Compliance, Talent Acquisition, Loss Intelligence, Performance Management and Saned Services.',ar:'منصة متعددة الوحدات: CRM والحضور والامتثال واستقطاب المواهب وذكاء الخسائر وإدارة الأداء وخدمات سند.'},
+ s:['.NET Core','Docker','RabbitMQ','gRPC','API Gateway','Redis','JWT','Swagger']},
+{art:'jobs',n:{en:'SQL Deployment Manager',ar:'مدير نشر SQL'},p:{en:'Database deployment tool with server connection management, script parsing with dangerous-statement detection and multi-server deployment.',ar:'أداة نشر قواعد بيانات مع إدارة اتصالات الخوادم وتحليل السكربتات مع كشف العبارات الخطرة والنشر على عدة خوادم.'},
+ s:['.NET','C#','SQL Server','PowerShell']},
+{art:'pmo',n:{en:'Invoice Builder with PDF Export',ar:'منشئ الفواتير مع تصدير PDF'},p:{en:'Drag-and-drop invoice builder with automated totals, taxes and discounts, customizable templates and professional PDF export.',ar:'منشئ فواتير بالسحب والإفلات مع حساب تلقائي للإجماليات والضرائب والخصومات وقوالب قابلة للتخصيص وتصدير PDF احترافي.'},
+ s:['.NET','PDF generation','Vue.js']},
+{art:'pmo',n:{en:'CV Creator / Generator',ar:'منشئ السير الذاتية'},p:{en:'Form-based CV creation with automatic formatting and ATS-optimized PDF/DOCX export across multiple templates.',ar:'إنشاء سيرة ذاتية عبر نماذج مع تنسيق تلقائي وتصدير PDF/DOCX متوافق مع ATS عبر عدة قوالب.'},
+ s:['.NET','SQL Server','PDF generation','Vue.js']},
+{art:'jobs',n:{en:'Data Tools',ar:'أدوات البيانات'},p:{en:'Mourjan marketplace scraper, Text Difference Checker, dynamic Excel import and database filtering tool, and an advanced diff checker.',ar:'أداة جمع من سوق مرجان، ومقارن النصوص، وأداة استيراد Excel ديناميكي وتصفية قواعد البيانات، ومقارن فروقات متقدم.'},
+ s:['.NET','C#','Playwright','HtmlAgilityPack','Excel automation','Vue.js']},
+{art:'jobs',n:{en:'E-commerce Platform',ar:'منصة تجارة إلكترونية'},p:{en:'Full stack e-commerce platform.',ar:'منصة تجارة إلكترونية Full Stack.'},
+ s:['.NET Core','SQL Server','Angular']},
+{art:'his',n:{en:'MAUI Blazor Water Application',ar:'تطبيق المياه بـMAUI Blazor'},p:{en:'Water management system hosted on Azure Cloud.',ar:'نظام إدارة مياه مستضاف على Azure.'},
+ s:['.NET API','Azure','MAUI Blazor']},
+{art:'pitch',live:1,n:{en:'Interactive presentations',ar:'عروض تفاعلية'},p:{en:'Single-file interactive pitches: PMO Portal investment pitch (10 scenes with a business-case simulator and AI-failover demo), PMO Portal product showcase (about 16 sections with English and Arabic screenshots), AeroBridge medical-supply logistics (drone routes and a fleet/hub/distance simulator) and MetroPulse city digital twin (layered map and incident-response dispatch).',ar:'عروض تفاعلية في ملف واحد: عرض استثمار PMO Portal (10 مشاهد مع محاكي دراسة جدوى وعرض تحويل الذكاء الاصطناعي)، وعرض منتج PMO Portal (نحو 16 قسماً بلقطات إنجليزية وعربية)، وAeroBridge للإمدادات الطبية (مسارات طائرات ومحاكي أسطول/محطة/مسافة)، وMetroPulse التوأم الرقمي للمدينة (خريطة طبقات وإرسال استجابة للحوادث).'},
+ s:['HTML5','CSS3','Vanilla JS','SVG','Canvas','Playwright'],l:[['PMO Pitch','https://abdulqader-pmo-pitch.netlify.app'],['PMO Showcase','https://abdulqader-pmo-showcase.netlify.app'],['AeroBridge','https://abdulqader-aerobridge.netlify.app'],['MetroPulse','https://abdulqader-metropulse.netlify.app']]}
+];
+var STACK=[
+{i:'code',h:{en:'Languages',ar:'اللغات البرمجية'},v:'C#, TypeScript, JavaScript, SQL (T-SQL, PL/pgSQL), Python, Java, Dart, DAX, HTML5, CSS3, PowerShell'},
+{i:'code',h:{en:'Backend',ar:'الواجهة الخلفية'},v:'ASP.NET Core 8 Web API & MVC, .NET microservices, SignalR, BackgroundService workers, Java Spring Boot, Node.js'},
+{i:'db',h:{en:'ORM and data access',ar:'ORM والوصول للبيانات'},v:'SqlSugar ORM (code-first), Entity Framework Core, Spring Data JPA, stored procedures, dynamic SQL'},
+{i:'layers',h:{en:'Frontend',ar:'الواجهة الأمامية'},v:'React 18/19, Vue.js, Angular, Next.js, Blazor, Vite, TailwindCSS, ECharts, Recharts, Three.js, i18next (EN/AR, RTL), axios, jQuery'},
+{i:'db',h:{en:'Databases',ar:'قواعد البيانات'},v:'SQL Server, ADO.NET, PostgreSQL, SQLite, Oracle, MongoDB, JSON; query optimization, profiling'},
+{i:'shield',h:{en:'Security',ar:'الأمان'},v:'JWT, RBAC, OAuth2 (Gmail API), Identity / IAM, SSO, audit logging'},
+{i:'card',h:{en:'Payments and integration',ar:'المدفوعات والتكامل'},v:'mada, Visa, Geidea, NamiPay (SkyBand ECR), ZATCA, Elm Yakeen, Infobip, NAPHIES, P/Invoke, serial COM, TCP/IP, WMI'},
+{i:'chart',h:{en:'Reporting and BI',ar:'التقارير وذكاء الأعمال'},v:'Power BI (PBIP/TMDL, 70+ DAX measures, embedded reports via Azure AD), Power Query, MS Access & VBA, Crystal Reports, RDLC'},
+{i:'brain',h:{en:'AI',ar:'الذكاء الاصطناعي'},v:'Multi-provider LLM integration with automatic failover (OpenAI-compatible: Groq, OpenRouter, Gemini, DeepSeek, Mistral), Ollama, GenAI for .NET'},
+{i:'test',h:{en:'Testing',ar:'الاختبار'},v:'xUnit, FluentAssertions, in-memory SQLite integration tests, Playwright'},
+{i:'cloud',h:{en:'DevOps and cloud',ar:'DevOps والسحابة'},v:'Docker (multi-stage), Render, Netlify, Neon Postgres, Azure, GitHub, GitHub Actions, Nginx, PowerShell'},
+{i:'box',h:{en:'Mobile and desktop',ar:'الجوال وسطح المكتب'},v:'Flutter, .NET MAUI / MAUI Blazor, Windows Forms, .NET Framework 4.0 – 4.8'}
+];
+
+/* ---------- render CV sections ---------- */
+var SKILLS=[
+{h:{en:'Engineering',ar:'الهندسة'},v:{en:'System architecture and design, microservices, REST API design, database design and administration, query optimization, legacy system modernization, performance tuning, debugging and troubleshooting, code quality and testing, technical documentation, version control',ar:'هندسة وتصميم الأنظمة، الخدمات المصغّرة، تصميم REST API، تصميم وإدارة قواعد البيانات، تحسين الاستعلامات، تحديث الأنظمة القديمة، ضبط الأداء، التصحيح وحل المشكلات، جودة الكود والاختبار، التوثيق التقني، التحكم بالإصدارات'}},
+{h:{en:'Domain',ar:'المجال'},v:{en:'Healthcare IT (HIS, EMR, IAM), payment terminal integration (mada, Visa), project portfolio management (PMO), finance and budgeting, recruitment and marketplaces, e-invoicing and billing, Saudi government integrations',ar:'تقنية المعلومات الصحية (HIS وEMR وIAM)، ربط أجهزة الدفع (مدى وفيزا)، إدارة محفظة المشاريع (PMO)، المالية والميزانيات، التوظيف والأسواق، الفوترة الإلكترونية، التكاملات الحكومية السعودية'}},
+{h:{en:'Delivery',ar:'التنفيذ'},v:{en:'Requirement analysis, project management, rapid prototyping, cross-functional collaboration, technical mentoring, process improvement, localization (i18n / RTL), executive presentations',ar:'تحليل المتطلبات، إدارة المشاريع، النماذج الأولية السريعة، التعاون بين الفرق، الإرشاد التقني، تحسين العمليات، التعريب (i18n / RTL)، العروض التنفيذية'}},
+{h:{en:'Soft skills',ar:'المهارات الشخصية'},v:{en:'Problem solving, critical thinking, adaptability, working under pressure, teamwork, attention to detail, time management, self-motivation, UX thinking, bilingual communication (Arabic / English)',ar:'حل المشكلات، التفكير النقدي، التكيّف، العمل تحت الضغط، العمل الجماعي، الاهتمام بالتفاصيل، إدارة الوقت، الدافعية الذاتية، التفكير في تجربة المستخدم، التواصل بلغتين (عربي / إنجليزي)'}}
+];
+var EDU=[
+{r:{en:'Bachelor of Science, Cyber Security',ar:'بكالوريوس العلوم في الأمن السيبراني'},c:{en:'National University',ar:'الجامعة الوطنية'},d:'2019 – 2023',n:{en:'Final grade: 80.5',ar:'التقدير النهائي: 80.5'}},
+{r:{en:'Diploma, Programming and Smartphone Maintenance',ar:'دبلوم البرمجة وصيانة الهواتف الذكية'},c:{en:'General Telecommunication Institute',ar:'المعهد العام للاتصالات'},d:'2020 – 2021',n:{en:'Completed Level 3A and 3B, FIL Institute',ar:'أتممت المستويين 3A و3B، معهد FIL'}},
+{r:{en:'Secondary School',ar:'الثانوية العامة'},c:{en:'Safer Private School',ar:'مدرسة سفير الخاصة'},d:'2018 – 2019',n:{en:'Final grade: 80.13',ar:'التقدير النهائي: 80.13'}}
+];
+var CERTS=[
+{t:{en:'GenAI for .NET: Build LLM Apps with OpenAI and Ollama',ar:'GenAI for .NET: بناء تطبيقات LLM باستخدام OpenAI وOllama'},s:'Udemy',d:{en:'Jun 2026 · Credential ID UC-51f9609e-ef3c-4bbc-ab10-8ceb7b89493b',ar:'يونيو 2026 · معرّف الاعتماد UC-51f9609e-ef3c-4bbc-ab10-8ceb7b89493b'}},
+{t:{en:'Voluntarily Identifying a Security Gap in a Critical Application',ar:'الإبلاغ الطوعي عن ثغرة أمنية في تطبيق حرج'},s:{en:'Almana Hospitals',ar:'مستشفيات المانع'},d:{en:'Issued Jun 2026',ar:'صدرت يونيو 2026'}},
+{t:{en:'Datatrans Company Certificate',ar:'شهادة شركة داتاترانس'},s:'Datatrans',d:{en:'Issued 09/2023',ar:'صدرت 09/2023'}},
+{t:{en:'Level 3A and 3B',ar:'المستويان 3A و3B'},s:'FIL Institute',d:{en:'Issued 06/2020',ar:'صدرت 06/2020'}},
+{t:{en:'Programming and Smartphone Maintenance',ar:'البرمجة وصيانة الهواتف الذكية'},s:{en:'General Telecommunication Institute',ar:'المعهد العام للاتصالات'},d:{en:'Issued 06/2020',ar:'صدرت 06/2020'}}
+];
+function S(x){return typeof x==='string'?x:L(x)}
+function renderMore(){
+  $('#skillgrid').innerHTML=SKILLS.map(function(k){return '<div class="sg"><h3>'+L(k.h)+'</h3><p>'+L(k.v)+'</p></div>'}).join('');
+  $('#edugrid').innerHTML=EDU.map(function(e){return '<div class="sg"><h3 style="color:var(--fg)"><svg class="i"><use href="#i-hospital"/></svg>'+L(e.r)+'</h3><p>'+L(e.c)+'</p><p class="mono" style="color:var(--sand);font-size:.8rem;margin-top:4px">'+e.d+'</p><p style="margin-top:4px">'+L(e.n)+'</p></div>'}).join('');
+  $('#certgrid').innerHTML=CERTS.map(function(c){return '<div class="sg"><h3 style="color:var(--fg)"><svg class="i"><use href="#i-shield"/></svg>'+L(c.t)+'</h3><p>'+S(c.s)+'</p><p class="mono" style="font-size:.78rem;margin-top:4px;overflow-wrap:anywhere">'+L(c.d)+'</p></div>'}).join('');
+}
+
+function renderTimeline(){
+  $('#timeline').innerHTML=JOBS.map(function(j){
+    var d=j.now?(j.d+(lang==='ar'?'الآن':'Present')):j.d;
+    return '<div class="tl-item'+(j.now?' now':'')+'"><div class="tl-head"><b>'+L(j.r)+(j.c?' · <span style="font-weight:500;color:var(--muted)">'+j.c+'</span>':'')+(L(j.loc)?' <span class="mono" style="font-weight:400;font-size:.76rem;color:var(--muted)">· '+L(j.loc)+'</span>':'')+'</b><span class="tl-date">'+d+'</span></div><p>'+L(j.p)+'</p><div class="tags">'+j.s.map(function(x){return '<span class="tag">'+x+'</span>'}).join('')+'</div></div>';
+  }).join('');
+}
+function art(k){
+  var A={
+  pmo:'<rect x="30" y="22" width="120" height="10" rx="3" fill="var(--sea)"/><rect x="70" y="42" width="150" height="10" rx="3" fill="var(--sand)"/><rect x="110" y="62" width="110" height="10" rx="3" fill="var(--sea)"/><rect x="50" y="82" width="170" height="10" rx="3" fill="var(--muted)" opacity=".6"/><path d="M250 90V30m20 60V50m20 40V40m20 50V60" stroke="var(--sea)" stroke-width="10" stroke-linecap="round" opacity=".7"/>',
+  pay:'<rect x="40" y="26" width="110" height="68" rx="9" fill="var(--surface)" stroke="var(--sea)" stroke-width="2"/><rect x="40" y="42" width="110" height="12" fill="var(--sea)" opacity=".7"/><rect x="52" y="70" width="34" height="8" rx="3" fill="var(--muted)"/><rect x="190" y="30" width="70" height="64" rx="8" fill="var(--surface)" stroke="var(--sand)" stroke-width="2"/><rect x="200" y="40" width="50" height="16" rx="3" fill="var(--sand)" opacity=".7"/><path d="M200 68h10M220 68h10M240 68h10M200 80h10M220 80h10M240 80h10" stroke="var(--muted)" stroke-width="5" stroke-linecap="round"/><path d="M150 60h40" stroke="var(--sea)" stroke-width="2" stroke-dasharray="4 5"/>',
+  his:'<path d="M150 18h20v28h28v20h-28v28h-20V66h-28V46h28z" fill="var(--sea)" opacity=".85"/><path d="M20 60h60l8-14 10 32 10-40 10 22h40" fill="none" stroke="var(--sand)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M230 60h50l8-14 10 32 8-24 8 6h18" fill="none" stroke="var(--sand)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+  integ:'<circle cx="160" cy="60" r="16" fill="var(--sea)"/><g fill="var(--surface)" stroke="var(--sand)" stroke-width="2"><circle cx="60" cy="30" r="12"/><circle cx="60" cy="90" r="12"/><circle cx="260" cy="30" r="12"/><circle cx="260" cy="90" r="12"/></g><path d="M72 34 146 56M72 86 146 64M248 34 174 56M248 86 174 64" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 5"/>',
+  jobs:'<rect x="40" y="20" width="130" height="16" rx="4" fill="var(--sea)" opacity=".8"/><rect x="40" y="46" width="170" height="16" rx="4" fill="var(--surface)" stroke="var(--line)"/><rect x="40" y="72" width="110" height="16" rx="4" fill="var(--surface)" stroke="var(--line)"/><circle cx="250" cy="52" r="22" fill="none" stroke="var(--sand)" stroke-width="5"/><path d="m266 68 18 18" stroke="var(--sand)" stroke-width="5" stroke-linecap="round"/>',
+  pitch:'<rect x="40" y="20" width="150" height="86" rx="8" fill="var(--surface)" stroke="var(--sea)" stroke-width="2"/><path d="M96 46v34l30-17z" fill="var(--sea)"/><rect x="206" y="28" width="74" height="22" rx="5" fill="var(--sand)" opacity=".75"/><rect x="206" y="60" width="74" height="22" rx="5" fill="var(--surface)" stroke="var(--line)"/><path d="M40 112h150" stroke="var(--sea)" stroke-width="3" stroke-dasharray="6 6"/>'
+  };
+  return '<svg viewBox="0 0 320 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+A[k]+'</svg>';
+}
+function renderCards(){
+  $('#cards').innerHTML=PROJ.map(function(p){
+    return '<article class="card"><div class="art">'+art(p.art)+'</div><div class="body"><h3>'+L(p.n)+(p.live?'<span class="live">'+(lang==='ar'?'حيّ':'Live')+'</span>':'')+'</h3><p>'+L(p.p)+'</p><div class="tags">'+p.s.map(function(x){return '<span class="tag">'+x+'</span>'}).join('')+'</div>'+
+      (p.l?'<div class="links">'+p.l.map(function(l){return '<a class="chip" href="'+l[1]+'" target="_blank" rel="noopener"><svg class="i"><use href="#i-ext"/></svg>'+l[0]+'</a>'}).join('')+'</div>':'')+'</div></article>';
+  }).join('');
+}
+function renderStack(){
+  $('#stackgrid').innerHTML=STACK.map(function(s){return '<div class="sg"><h3><svg class="i"><use href="#i-'+s.i+'"/></svg>'+L(s.h)+'</h3><p dir="ltr" style="text-align:start">'+s.v+'</p></div>'}).join('');
+}
+
+/* ---------- svg helper ---------- */
+function E(tag,attrs,parent,html){var e=document.createElementNS(NS,tag);if(attrs)for(var k in attrs)e.setAttribute(k,attrs[k]);if(html!==undefined)e.innerHTML=html;if(parent)parent.appendChild(e);return e}
+function chip(parent,label,pressed,cls,fn){var b=document.createElement('button');b.type='button';b.className='chip'+(cls?' '+cls:'');b.setAttribute('aria-pressed',pressed?'true':'false');b.innerHTML=label;b.addEventListener('click',fn);parent.appendChild(b);return b}
+function kpi(el,items){el.innerHTML=items.map(function(i){return '<div class="kpi"><small>'+i[0]+'</small><b>'+i[1]+'</b></div>'}).join('')}
+function out(id,txt){$(id).textContent=txt}
+
+/* ---------- language, theme, copy ---------- */
+function applyLang(){
+  var h=document.documentElement;h.lang=lang;h.dir=lang==='ar'?'rtl':'ltr';
+  $$('[data-i18n]').forEach(function(e){e.textContent=t(e.getAttribute('data-i18n'))});
+  $('#lang-label').textContent=lang==='ar'?'English':'العربية';
+  renderTimeline();renderCards();renderStack();renderMore();
+}
+$('#btn-lang').addEventListener('click',function(){lang=lang==='ar'?'en':'ar';try{localStorage.setItem('aa-lang',lang)}catch(e){}applyLang()});
+var mq=window.matchMedia('(prefers-color-scheme: dark)');
+function setThemeIcon(){var cur=document.documentElement.getAttribute('data-theme')||(mq.matches?'dark':'light');$('#btn-theme use').setAttribute('href',cur==='dark'?'#i-sun':'#i-moon')}
+$('#btn-theme').addEventListener('click',function(){var cur=document.documentElement.getAttribute('data-theme')||(mq.matches?'dark':'light');document.documentElement.setAttribute('data-theme',cur==='dark'?'light':'dark');setThemeIcon()});
+setThemeIcon();
+$$('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+  var el=$('#'+b.getAttribute('data-copy')),txt=el.textContent,span=b.querySelector('span');
+  function done(){var old=span.textContent;span.textContent=t('copied');setTimeout(function(){span.textContent=t('copy')},1400)}
+  function fallback(){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);done()}
+  try{navigator.clipboard.writeText(txt).then(done,fallback)}catch(e){fallback()}
+})});
+applyLang();
+})();
+</script>
+
+</body>
+</html>
